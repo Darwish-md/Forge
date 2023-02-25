@@ -46,9 +46,9 @@ function createGraphData(playerStats, username) {
 
   // Create links
   const links = [
-    ...opponents.map(o => ({ source: username, target: o, value: -1 })),
-    ...neutrals.map(n => ({ source: username, target: n, value: 0 })),
-    ...partners.map(p => ({ source: username, target: p, value: 1 }))
+    ...opponents.map(o => ({ source: username, target: o, value: o.score })),
+    ...neutrals.map(n => ({ source: username, target: n, value: n.score })),
+    ...partners.map(p => ({ source: username, target: p, value: p.score }))
   ];
 
   return { nodes, links };
