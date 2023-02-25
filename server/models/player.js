@@ -1,20 +1,28 @@
-const Joi = require("joi");
 const mongoose = require("mongoose");
 
-const match = new mongoose.model("Movie", new mongoose.Schema({
-    
-}));
+const playerSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 20,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 10,
+    maxlength: 100,
+  },
+  currentEloRating:{
+    type: Number,
+    required: true, 
+    default: 1000
+  },
+  eloRatings: {
+    type: [Number],
+  }
+});
 
-function validateMatch(match) {
-  const schema = Joi.object({
-    title: Joi.string().min(5).max(50).required(),
-    genreId: Joi.string().hex().length(24).required(),
-    numberInStock: Joi.number().min(0).required(),
-    dailyRentalRate: Joi.number().min(0).required(),
-  });
+const Player = new mongoose.model("player", playerSchema);
 
-  return schema.validate(match);
-}
-
-exports.Movie = Movie;
-exports.validate = validateMovie;
+module.exports = Player;
