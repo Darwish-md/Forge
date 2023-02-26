@@ -4,12 +4,14 @@ const {
   getMatchDataById,
 } = require("../service/riotService");
 
+const config = require("config");
+
 function getUnixTimestampFromDate(date) {
   return Math.floor(date.getTime() / 1000);
 }
 
 async function getPlayerStatsByDate(summonerName, startDate, endDate) {
-  const API_KEY = "RGAPI-75dcd610-c58c-4e1e-8212-0a8b7d6f7f40";
+  const API_KEY = config.get("riotAPIKey");
   const region = "americas"; // e.g. NA1, EUW1, KR, etc.
 
   const startTime = getUnixTimestampFromDate(startDate);
@@ -51,8 +53,8 @@ async function getPlayerStatsByDate(summonerName, startDate, endDate) {
 }
 
 const getPlayerStatsByYear = async (summonerName, year) => {
-  const startDate = new Date(year, 0, 1);
-  const endDate = new Date(year + 1, 0, 0);
+  const startDate = new Date(Number(year), 0, 1);
+  const endDate = new Date(Number(year) + 1, 0, 0);
   return await getPlayerStatsByDate(summonerName,startDate, endDate);
 }
 
@@ -62,4 +64,10 @@ const getPlayerStatsByMonth = async (summonerName, year, month) =>  {
   return await getPlayerStatsByDate(summonerName,startDate, endDate);
 }
 
-module.exports = { getPlayerStatsByYear, getPlayerStatsByMonth };
+const getPlayerStatsByWeek = async (summonerName, year, month, week) =>  {
+  const startDate = new Date(Number(year),Number(month), 1 + (Number(week) - 1) * 7);
+  const endDate = new Date(Number(year), Number(month), 0);
+  return await getPlayerStatsByDate(summonerName,startDate, endDate);
+}
+
+module.exports = { getPlayerStatsByYear, getPlayerStatsByMonth, getPlayerStatsByWeek };

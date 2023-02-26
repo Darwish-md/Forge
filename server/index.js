@@ -4,10 +4,10 @@ const app = express();
 
 handleExceptions();
 require('./startup/routes')(app);
-//require('./startup/db')();
-//require('./startup/config')();
+require('./startup/db')();
+require('./startup/config')();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => logger.info(`Listening on port ${port}...`));
 
-module.exports = server; //to user server for testing
+module.exports = server; //to use server for testing
