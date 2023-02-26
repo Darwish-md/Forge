@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    {"id": "summonerId", "ranking": 1},
+    {"id": "player1", "ranking": 2},
+    {"id": "player2", "ranking": 3},
+    {"id": "player3", "ranking": 4},
+    {"id": "player4", "ranking": 5},
+    {"id": "player5", "ranking": 6}
+  ],
+  "links": [
+    {"source": "summonerId", "target": "player1", "relationship": "partner"},
+    {"source": "summonerId", "target": "player2", "relationship": "enemy"},
+    {"source": "summonerId", "target": "player3", "relationship": "partner"},
+    {"source": "summonerId", "target": "player4", "relationship": "partner"},
+    {"source": "summonerId", "target": "player5", "relationship": "enemy"}
+  ]
+}
