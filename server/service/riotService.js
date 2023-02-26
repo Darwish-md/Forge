@@ -17,7 +17,7 @@ const getMatchIdsBySummonerId = async (summonerId, startTime, endTime, region, A
   const matchIdsResponse = await axios.get(url, {
     headers: {
       "X-Riot-Token": API_KEY,
-    },
+    }
   });
 
   const matchIds = matchIdsResponse.data;

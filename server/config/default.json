@@ -1,5 +1,5 @@
 {
     "jwtPrivateKey": "secretKey",
     "db": "mongodb+srv://user:user@cluster0.6tw5bc5.mongodb.net/?retryWrites=true&w=majority",
-    "riotAPIKey": "RGAPI-3729599a-9517-4e82-bb02-fae9fe9450b1"
+    "riotAPIKey": "RGAPI-a0e04c05-cfd9-4a4e-9e64-cedf76717a9b"
 }

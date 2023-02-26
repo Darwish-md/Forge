@@ -1,14 +1,9 @@
 const express = require("express");
 const config = require('config');
-const {calculateEloRatings } = require('../utils/eloRating');
+const {calculateEloRatings, getLeaguePoints } = require('../utils/eloRating');
 const {Player} = require("../models/player");
-const {getPlayerStatsByYear} = require("../utils/playerStatistics");
-const {getSoloRankedMatches } = require("../utils/rankedMatches");
-const {
-    getSummonerIdByName,
-    getMatchIdsBySummonerId,
-    getMatchDataById,
-  } = require("../service/riotService");
+const {getPlayerStatsByYear, getPlayerStatsByMonth} = require("../utils/playerStatistics");
+const { getPlayerTotalStats } = require("../utils/totalStatistics");
 
 const router = express.Router();
 
@@ -16,30 +11,36 @@ router.get("/:summonerName/:year", async (req, res) => {
     const API_KEY = config.get("riotAPIKey");
     const summonerName = req.params.summonerName;
     const player = await Player.findOne({name: req.params.summonerName});
-    const soloMatchesIds = await getPlayerStatsByYear(player.name, req.params.year, API_KEY);     
-    const matchStatistics = []   
-    for(matchId of soloMatchesIds) {
-        const matchData = await getMatchDataById(matchId, 'americas', API_KEY);
-        const player = matchData.info.participants.find(
-            (p) => p.summonerName === summonerName
-          );
-          const matchStatisticsItem = {
-            id: player.summonerId,
-            matchId: matchId,
-            username: player.summonerName,
-            winLossRatio: player.win ? "1/0" : "0/1",
-            kills: player.kills,
-            deaths: player.deaths,
-            assists: player.assists,
-            farm: player.totalMinionsKilled,
-            healing: player.totalHeal,
-            damageDealt: player.totalDamageDealtToChampions,
-          };
-        
-        matchStatistics.push(matchStatisticsItem);
-    }
+    const matchStatistics = await getPlayerStatsByYear(player.name, req.params.year, API_KEY);     
     const eloRatings = await calculateEloRatings(matchStatistics, player.eloRating);
     res.status(200).send(eloRatings);
+});
+
+
+router.get("/:summonerName/:year/:month", async (req, res) => {
+  const API_KEY = config.get("riotAPIKey");
+  const summonerName = req.params.summonerName;
+  const player = await Player.findOne({name: req.params.summonerName});
+  const matchStatistics = await getPlayerStatsByMonth(player.name, req.params.year, req.params.month, API_KEY);     
+  const eloRatings = await calculateEloRatings(matchStatistics, player.eloRating);
+  res.status(200).send(eloRatings);
+});
+
+router.get("/:year/:month", async (req, res) => {
+  const API_KEY = config.get("riotAPIKey");
+  const players = await Player.find();
+  const total = []
+  for(player of players) {
+    console.log(player.name)
+    const matchStatistics = await getPlayerStatsByMonth(player.name, req.params.year, req.params.month, API_KEY);     
+    const eloRatings = await calculateEloRatings(matchStatistics, player.eloRating);
+    const currentEloRating = eloRatings[eloRatings.length-1];
+    const totalStatistics = await getPlayerTotalStats(matchStatistics);
+    totalStatistics['elo'] = currentEloRating;
+    total.push(totalStatistics);
+  }
+
+  res.status(200).send(total);
 });
 
 module.exports = router;

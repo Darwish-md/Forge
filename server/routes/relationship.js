@@ -1,15 +1,14 @@
 const express = require("express");
 const skillsDeviation = require("../utils/skillsDeviation");
-const Player = require("../models/player");
+const {Player} = require("../models/player");
 const router = express.Router();
-const playerA = Player.findOne({name: ''});
 
 //recommended player will depend on the previous year statistics achieved by the player
 const today = new Date();
 const previousYear = today.getFullYear() - 1;
 
 router.get("/suggestPlayers/:summonerName", async(req, res) => {
-    const players = Player.findAll();
+    const players = await Player.findAll();
 
     const year = new Date().getFullYear();
     const monthIndex = new Date().getMonth();

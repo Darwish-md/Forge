@@ -69,13 +69,13 @@ async function calculateEloRatings(matchStatistics, initialEloRating) {
 
 
 async function getLeaguePoints(id, API_KEY) {
-  const response = await axios.get(
-    `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}/?api_key=${API_KEY}`
-  );
+  const url = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}/?api_key=${API_KEY}`
 
+  const response = await axios.get(url);
+  if(response.data.length === 0) return 1000;
   return response.data[0].leaguePoints;
 }
 
-module.exports = { calculateEloRatings };
+module.exports = { calculateEloRatings, getLeaguePoints };
 
 
