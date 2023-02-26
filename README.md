@@ -2,9 +2,9 @@
 
 ## Images:
 
-[Dashboard](client/imgs/DASHBOARD.jpeg)
-[EloBoard](client/imgs/EloBoard.png)
-[RelationshipBoard](client/imgs/RELATIONSHIP.png)
+![Dashboard](./client/imgs/DASHBOARD.jpeg)
+![EloBoard](./client/imgs/EloBoard.png)
+![RelationshipBoard](./client/imgs/RELATIONSHIP.png)
 
 
 ## API Documentation: 
