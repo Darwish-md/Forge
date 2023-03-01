@@ -1,11 +1,11 @@
 # Forge
+Forge is a web application that provides players of League of Legends with various features to improve their gameplay experience. The application uses the Riot Games API to gather data about players, including their match history, champion statistics, and overall performance. The main features of the application include an Elo rating system that calculates a player's skill level, a recommendation system that suggests potential teammates and opponents based on skill level and compatibility using a network graph, and a dashboard that displays statistics and insights about a player's performance over time. The web application is built using React.js, MongoDB, d3.js, and Node.js.
 
 ## Images:
 
 ![Dashboard](./client/imgs/DASHBOARD.jpeg)
 ![EloBoard](./client/imgs/EloBoard.png)
 ![RelationshipBoard](./client/imgs/RELATIONSHIP.png)
-
 
 ## API Documentation: 
 
